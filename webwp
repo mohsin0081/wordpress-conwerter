@@ -1,0 +1,23 @@
+<script>
+document.getElementById("convert-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const url = document.getElementById("website-url").value;
+    const response = await fetch(`https://your-nodejs-tool.com/convert?url=${encodeURIComponent(url)}`);
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = "wordpress-theme.zip";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
+        document.getElementById("message").innerText = "Your theme is downloading!";
+    } else {
+        document.getElementById("message").innerText = "There was an error generating the theme.";
+    }
+});
+</script>
